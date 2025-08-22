@@ -13,7 +13,7 @@ export default function Hero() {
           x={-1}
           y={-1}
           strokeDasharray={"5 15"}
-          className="[mask-image:radial-gradient(800px_circle_at_center,white,transparent)] stroke-red-200/40"
+          className="[mask-image:radial-gradient(800px_circle_at_center,white,transparent)] stroke-rose-600/50 dark:stroke-red-200/40"
         />
 
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-red-500/10 rounded-full blur-3xl"></div>
@@ -74,16 +74,16 @@ export default function Hero() {
 
         {/* Trust Indicators */}
         <div className="mt-16 flex flex-wrap justify-center items-center gap-8 opacity-60">
-          <div className="text-sm text-gray-500 flex items-center gap-2">
-            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+          <div className="text-sm text-gray-600 dark:text-gray-200 flex items-center gap-2">
+            <div className="w-2 h-2 bg-green-600 dark:bg-green-400 rounded-full"></div>
             Live Tracking
           </div>
-          <div className="text-sm text-gray-500 flex items-center gap-2">
-            <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
+          <div className="text-sm text-gray-600 dark:text-gray-200 flex items-center gap-2">
+            <div className="w-2 h-2 bg-blue-600 dark:bg-blue-400 rounded-full"></div>
             24/7 Support
           </div>
-          <div className="text-sm text-gray-500 flex items-center gap-2">
-            <div className="w-2 h-2 bg-purple-500 rounded-full animate-pulse"></div>
+          <div className="text-sm text-gray-600 dark:text-gray-200 flex items-center gap-2">
+            <div className="w-2 h-2 bg-purple-600 dark:bg-purple-400 rounded-full"></div>
             Insured Packages
           </div>
         </div>
