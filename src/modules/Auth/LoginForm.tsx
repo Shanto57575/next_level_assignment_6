@@ -39,7 +39,6 @@ export default function LoginForm({
   const onSubmit = async (data: Partial<I_USER>) => {
     try {
       const result = await login(data).unwrap();
-      console.log(result);
       if (result?.success) {
         toast.success(`Logged in Successfully`);
         navigate("/");

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { AnimatedThemeToggler } from "./animated-theme-toggler";
 import logo from "../assets/icons/swiftDrops.png";
-import { Link, useNavigate } from "react-router";
+import { Link, useNavigate, NavLink } from "react-router";
 import { useProfileQuery } from "@/redux/app/features/authApi";
 import { Button } from "./ui/button";
 import { useLogoutMutation } from "@/redux/app/features/authApi";
@@ -26,7 +26,6 @@ export default function Navbar() {
     const toastId = toast.loading("logging out....");
     try {
       const result = await logout(undefined).unwrap();
-      console.log(result);
       if (result?.success) {
         navigate("/login");
         toast.success("Logged out successfully", { id: toastId });
@@ -51,20 +50,27 @@ export default function Navbar() {
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-6">
             {navLinks.map((link) => (
-              <Link
+              <NavLink
                 key={link.label}
                 to={link.href}
-                className="text-sm font-medium text-gray-500 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-300"
+                end={link.href === "/"}
+                className={({ isActive }) =>
+                  `relative text-sm font-medium transition-colors duration-300 group ${
+                    isActive
+                      ? "text-red-600 dark:text-red-500"
+                      : "text-gray-600 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white"
+                  }`
+                }
               >
                 {link.label}
-              </Link>
+                <span className="absolute bottom-0 left-0 h-0.5 bg-red-600 w-0 group-hover:w-full transition-all duration-300 ease-out" />
+              </NavLink>
             ))}
           </nav>
 
           <div className="flex items-center gap-4">
             <AnimatedThemeToggler />
             {userData && userData.data.email ? (
-              // Hide Logout button in desktop navbar if mobile menu is open and screen is < 768px
               <Button
                 onClick={handleLogout}
                 variant="outline"
@@ -109,13 +115,20 @@ export default function Navbar() {
         >
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
             {navLinks.map((link) => (
-              <a
+              <NavLink
                 key={link.label}
-                href={link.href}
-                className="text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white block px-3 py-2 rounded-md text-base font-medium transition-colors duration-300"
+                to={link.href}
+                end={link.href === "/"}
+                className={({ isActive }) =>
+                  `block px-3 py-2 rounded-md text-base font-medium transition-colors duration-300 ${
+                    isActive
+                      ? "text-red-500 dark:text-red-500 bg-red-50 dark:bg-red-950/20"
+                      : "text-gray-600 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white"
+                  }`
+                }
               >
                 {link.label}
-              </a>
+              </NavLink>
             ))}
             {userData && userData.data.email ? (
               <Button

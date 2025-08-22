@@ -12,7 +12,7 @@ export default function Hero() {
           height={40}
           x={-1}
           y={-1}
-          strokeDasharray={"5 15"}
+          strokeDasharray={"5 25"}
           className="[mask-image:radial-gradient(800px_circle_at_center,white,transparent)] stroke-rose-600/50 dark:stroke-red-200/40"
         />
 
