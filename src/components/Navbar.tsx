@@ -1,0 +1,131 @@
+import { useState } from "react";
+import { AnimatedThemeToggler } from "./animated-theme-toggler";
+import logo from "../assets/icons/swiftDrops.png";
+import { Link } from "react-router";
+
+const MenuIcon = ({ className }: { className?: string }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+  >
+    <line x1="4" x2="20" y1="12" y2="12" />
+    <line x1="4" x2="20" y1="6" y2="6" />
+    <line x1="4" x2="20" y1="18" y2="18" />
+  </svg>
+);
+
+const XIcon = ({ className }: { className?: string }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+  >
+    <path d="M18 6 6 18" />
+    <path d="m6 6 12 12" />
+  </svg>
+);
+
+export default function Navbar() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const navLinks = [
+    { href: "/", label: "Home" },
+    { href: "/about", label: "About" },
+    { href: "/contact", label: "Contact" },
+  ];
+
+  return (
+    <header className="bg-white/80 dark:bg-black/80 backdrop-blur-sm sticky top-0 z-50 w-full border-b border-gray-200 dark:border-gray-700">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
+          {/* Logo Section */}
+          <div className="flex-shrink-0">
+            <Link to="/" className="flex items-center gap-2">
+              <img src={logo} className="w-20 h-20" alt="logo" />
+            </Link>
+          </div>
+
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex items-center gap-6">
+            {navLinks.map((link) => (
+              <Link
+                key={link.label}
+                to={link.href}
+                className="text-sm font-medium text-gray-500 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-300"
+              >
+                {link.label}
+              </Link>
+            ))}
+          </nav>
+
+          {/* CTA Button, Theme Toggle and Mobile Menu Toggle */}
+          <div className="flex items-center gap-4">
+            <AnimatedThemeToggler />
+            <Link
+              to="/login"
+              className="hidden sm:inline-flex items-center justify-center rounded-md text-sm font-medium h-10 px-4 py-2 bg-gray-900 dark:bg-white text-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors duration-300"
+            >
+              Login
+            </Link>
+            {/* Mobile Menu Button */}
+            <div className="md:hidden">
+              <button
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                className="inline-flex items-center justify-center p-2 rounded-md text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-500 dark:focus:ring-gray-400 transition-colors duration-300"
+                aria-expanded={isMenuOpen}
+              >
+                <span className="sr-only">Open main menu</span>
+                {isMenuOpen ? (
+                  <XIcon className="h-6 w-6" />
+                ) : (
+                  <MenuIcon className="h-6 w-6" />
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile Menu Dropdown (Sheet) */}
+      {isMenuOpen && (
+        <div
+          className="md:hidden border-t border-gray-200 dark:border-gray-700"
+          id="mobile-menu"
+        >
+          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+            {navLinks.map((link) => (
+              <a
+                key={link.label}
+                href={link.href}
+                className="text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white block px-3 py-2 rounded-md text-base font-medium transition-colors duration-300"
+              >
+                {link.label}
+              </a>
+            ))}
+            <a
+              href="#"
+              className="w-full mt-2 text-center items-center justify-center rounded-md text-sm font-medium h-10 px-4 py-2 bg-gray-900 dark:bg-white text-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-gray-100 block transition-colors duration-300"
+            >
+              Get Started
+            </a>
+          </div>
+        </div>
+      )}
+    </header>
+  );
+}
