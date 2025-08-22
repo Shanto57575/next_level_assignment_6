@@ -1,53 +1,41 @@
 import { useState } from "react";
 import { AnimatedThemeToggler } from "./animated-theme-toggler";
 import logo from "../assets/icons/swiftDrops.png";
-import { Link } from "react-router";
-
-const MenuIcon = ({ className }: { className?: string }) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    className={className}
-  >
-    <line x1="4" x2="20" y1="12" y2="12" />
-    <line x1="4" x2="20" y1="6" y2="6" />
-    <line x1="4" x2="20" y1="18" y2="18" />
-  </svg>
-);
-
-const XIcon = ({ className }: { className?: string }) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    className={className}
-  >
-    <path d="M18 6 6 18" />
-    <path d="m6 6 12 12" />
-  </svg>
-);
+import { Link, useNavigate } from "react-router";
+import { useProfileQuery } from "@/redux/app/features/authApi";
+import { Button } from "./ui/button";
+import { useLogoutMutation } from "@/redux/app/features/authApi";
+import { toast } from "sonner";
+import { AlignJustify, X } from "lucide-react";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [logout] = useLogoutMutation();
+
+  const { data: userData } = useProfileQuery(undefined);
+
+  const navigate = useNavigate();
 
   const navLinks = [
     { href: "/", label: "Home" },
     { href: "/about", label: "About" },
     { href: "/contact", label: "Contact" },
   ];
+
+  const handleLogout = async () => {
+    const toastId = toast.loading("logging out....");
+    try {
+      const result = await logout(undefined).unwrap();
+      console.log(result);
+      if (result?.success) {
+        navigate("/login");
+        toast.success("Logged out successfully", { id: toastId });
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Failed to logout", { id: toastId });
+    }
+  };
 
   return (
     <header className="font-serif bg-white/80 dark:bg-black/80 backdrop-blur-sm sticky top-0 z-50 w-full border-b border-gray-200 dark:border-gray-700">
@@ -73,15 +61,27 @@ export default function Navbar() {
             ))}
           </nav>
 
-          {/* CTA Button, Theme Toggle and Mobile Menu Toggle */}
           <div className="flex items-center gap-4">
             <AnimatedThemeToggler />
-            <Link
-              to="/login"
-              className="hidden sm:inline-flex items-center justify-center rounded-md text-sm font-medium h-10 px-4 py-2 bg-gray-900 dark:bg-white text-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors duration-300"
-            >
-              Login
-            </Link>
+            {userData && userData.data.email ? (
+              // Hide Logout button in desktop navbar if mobile menu is open and screen is < 768px
+              <Button
+                onClick={handleLogout}
+                variant="outline"
+                className={`cursor-pointer hidden md:inline-flex ${
+                  isMenuOpen ? " md:hidden" : ""
+                }`}
+              >
+                Logout
+              </Button>
+            ) : (
+              <Link
+                to="/login"
+                className="hidden md:inline-flex items-center justify-center rounded-md text-sm font-medium h-10 px-4 py-2 bg-gray-900 dark:bg-white text-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors duration-300"
+              >
+                Login
+              </Link>
+            )}
             {/* Mobile Menu Button */}
             <div className="md:hidden">
               <button
@@ -91,9 +91,9 @@ export default function Navbar() {
               >
                 <span className="sr-only">Open main menu</span>
                 {isMenuOpen ? (
-                  <XIcon className="h-6 w-6" />
+                  <X className="h-6 w-6" />
                 ) : (
-                  <MenuIcon className="h-6 w-6" />
+                  <AlignJustify className="h-6 w-6" />
                 )}
               </button>
             </div>
@@ -117,12 +117,22 @@ export default function Navbar() {
                 {link.label}
               </a>
             ))}
-            <a
-              href="#"
-              className="w-full mt-2 text-center items-center justify-center rounded-md text-sm font-medium h-10 px-4 py-2 bg-gray-900 dark:bg-white text-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-gray-100 block transition-colors duration-300"
-            >
-              Get Started
-            </a>
+            {userData && userData.data.email ? (
+              <Button
+                onClick={handleLogout}
+                variant="outline"
+                className="w-full cursor-pointer"
+              >
+                Logout
+              </Button>
+            ) : (
+              <Link
+                to="/login"
+                className="w-full mt-2 text-center items-center justify-center rounded-md text-sm font-medium h-10 px-4 py-2 bg-gray-900 dark:bg-white text-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-gray-100 block transition-colors duration-300"
+              >
+                Login
+              </Link>
+            )}
           </div>
         </div>
       )}

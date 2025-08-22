@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import {
   Form,
   FormControl,
@@ -13,7 +13,10 @@ import {
 } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
-import { EyeIcon, EyeOffIcon } from "lucide-react";
+import { EyeIcon, EyeOffIcon, LoaderCircleIcon } from "lucide-react";
+import type { I_USER } from "@/interfaces/user.interface";
+import { useLoginMutation } from "@/redux/app/features/authApi";
+import { toast } from "sonner";
 
 export default function LoginForm({
   className,
@@ -22,6 +25,7 @@ export default function LoginForm({
   const [isVisible, setIsVisible] = useState<boolean>(false);
 
   const toggleVisibility = () => setIsVisible((prevState) => !prevState);
+  const navigate = useNavigate();
 
   const form = useForm({
     defaultValues: {
@@ -30,8 +34,20 @@ export default function LoginForm({
     },
   });
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const [login, { isLoading }] = useLoginMutation();
+
+  const onSubmit = async (data: Partial<I_USER>) => {
+    try {
+      const result = await login(data).unwrap();
+      console.log(result);
+      if (result?.success) {
+        toast.success(`Logged in Successfully`);
+        navigate("/");
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Something went wrong! please try again");
+    }
   };
 
   return (
@@ -112,15 +128,28 @@ export default function LoginForm({
             />
           </form>
         </Form>
-        <Button form="add-register" type="submit" className="w-full">
-          Login
+        <Button
+          disabled={isLoading}
+          form="add-register"
+          type="submit"
+          className="w-full cursor-pointer"
+        >
+          {isLoading ? (
+            <LoaderCircleIcon
+              className="-ms-1 animate-spin"
+              size={16}
+              aria-hidden="true"
+            />
+          ) : (
+            "Login"
+          )}
         </Button>
         <div className="after:border-border relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t">
           <span className="bg-background text-muted-foreground relative z-10 px-2">
             Or continue with
           </span>
         </div>
-        <Button variant="outline" className="w-full">
+        <Button disabled variant="outline" className="w-full cursor-pointer">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             x="0px"
