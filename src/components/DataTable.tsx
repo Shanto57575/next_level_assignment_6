@@ -41,47 +41,45 @@ export default function DataTable(props: IAllUsersResponse) {
   };
 
   return (
-    <div>
-      <div className="mt-20 max-w-2xl w-full mx-auto bg-background overflow-hidden rounded-md border">
-        <Table>
-          <TableHeader>
-            <TableRow className="bg-muted/50">
-              <TableHead className="h-9 py-2">Name</TableHead>
-              <TableHead className="h-9 py-2">Email</TableHead>
-              <TableHead className="h-9 py-2">Role</TableHead>
-              <TableHead className="h-9 py-2">Status</TableHead>
+    <div className="mt-20 max-w-3xl w-full mx-auto bg-background overflow-hidden rounded-md border">
+      <Table>
+        <TableHeader>
+          <TableRow className="bg-muted/50">
+            <TableHead className="h-9 py-2">Name</TableHead>
+            <TableHead className="h-9 py-2">Email</TableHead>
+            <TableHead className="h-9 py-2">Role</TableHead>
+            <TableHead className="h-9 py-2">Status</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {props?.data?.map((user) => (
+            <TableRow key={user._id}>
+              <TableCell className="py-2 font-medium">{user.name}</TableCell>
+              <TableCell className="py-2">{user?.email}</TableCell>
+              <TableCell className="py-2">{user?.role}</TableCell>
+              <TableCell className="py-2">
+                <Select
+                  disabled={user.role === userData?.data?.role}
+                  onValueChange={(e) => handleStatus(user._id, e)}
+                  defaultValue={user?.isActive}
+                >
+                  <SelectTrigger className="w-[120px]">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectLabel>Status</SelectLabel>
+                      <SelectItem value="ACTIVE">ACTIVE</SelectItem>
+                      <SelectItem value="INACTIVE">INACTIVE</SelectItem>
+                      <SelectItem value="BLOCKED">BLOCKED</SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </TableCell>
             </TableRow>
-          </TableHeader>
-          <TableBody>
-            {props?.data?.map((user) => (
-              <TableRow key={user._id}>
-                <TableCell className="py-2 font-medium">{user.name}</TableCell>
-                <TableCell className="py-2">{user?.email}</TableCell>
-                <TableCell className="py-2">{user?.role}</TableCell>
-                <TableCell className="py-2">
-                  <Select
-                    disabled={user.role === userData?.data?.role}
-                    onValueChange={(e) => handleStatus(user._id, e)}
-                    defaultValue={user?.isActive}
-                  >
-                    <SelectTrigger className="w-[120px]">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectGroup>
-                        <SelectLabel>Status</SelectLabel>
-                        <SelectItem value="ACTIVE">ACTIVE</SelectItem>
-                        <SelectItem value="INACTIVE">INACTIVE</SelectItem>
-                        <SelectItem value="BLOCKED">BLOCKED</SelectItem>
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </div>
+          ))}
+        </TableBody>
+      </Table>
     </div>
   );
 }
