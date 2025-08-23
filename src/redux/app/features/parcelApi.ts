@@ -2,12 +2,12 @@ import { baseApi } from "./baseApi";
 
 export const parcelApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    allParcels: builder.query({
-      query: () => ({
-        url: "/parcel/all-parcels",
-        method: "GET",
+    addParcel: builder.mutation({
+      query: (parcelInfo) => ({
+        url: "/parcel/create-parcel",
+        method: "POST",
+        data: parcelInfo,
       }),
-      providesTags: ["PARCEL"],
     }),
     updateParcel: builder.mutation({
       query: ({ id, payload }) => ({
@@ -17,7 +17,18 @@ export const parcelApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["PARCEL"],
     }),
+    allParcels: builder.query({
+      query: () => ({
+        url: "/parcel/all-parcels",
+        method: "GET",
+      }),
+      providesTags: ["PARCEL"],
+    }),
   }),
 });
 
-export const { useAllParcelsQuery, useUpdateParcelMutation } = parcelApi;
+export const {
+  useAllParcelsQuery,
+  useAddParcelMutation,
+  useUpdateParcelMutation,
+} = parcelApi;

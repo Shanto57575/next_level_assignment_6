@@ -2,12 +2,13 @@ import { useState } from "react";
 import { AnimatedThemeToggler } from "./animated-theme-toggler";
 import logo from "../assets/icons/swiftDrops.png";
 import { Link, useNavigate, NavLink } from "react-router";
-import { useProfileQuery } from "@/redux/app/features/authApi";
+import { authApi, useProfileQuery } from "@/redux/app/features/authApi";
 import { Button } from "./ui/button";
 import { useLogoutMutation } from "@/redux/app/features/authApi";
 import { toast } from "sonner";
 import { AlignJustify, X } from "lucide-react";
 import { role } from "@/utils/getSidebarItems";
+import { useAppDispatch } from "@/redux/app/hooks";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -26,6 +27,8 @@ export default function Navbar() {
     { href: "/receiver", label: "Dashboard", role: role.RECEIVER },
   ];
 
+  const dispatch = useAppDispatch();
+
   const handleLogout = async () => {
     const toastId = toast.loading("logging out....");
     try {
@@ -33,6 +36,7 @@ export default function Navbar() {
       if (result?.success) {
         navigate("/login");
         toast.success("Logged out successfully", { id: toastId });
+        dispatch(authApi.util.resetApiState());
       }
     } catch (error) {
       console.log(error);

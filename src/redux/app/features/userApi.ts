@@ -22,8 +22,18 @@ export const userApi = baseApi.injectEndpoints({
         method: "GET",
       }),
     }),
+    allReceiver: builder.query({
+      query: () => ({
+        url: "/user/all-receiver",
+        method: "GET",
+      }),
+    }),
   }),
 });
 
-export const { useRegisterMutation, useAllUsersQuery, useUpdateUserMutation } =
-  userApi;
+export const {
+  useRegisterMutation,
+  useAllUsersQuery,
+  useAllReceiverQuery,
+  useUpdateUserMutation,
+} = userApi;
