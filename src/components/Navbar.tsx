@@ -7,6 +7,7 @@ import { Button } from "./ui/button";
 import { useLogoutMutation } from "@/redux/app/features/authApi";
 import { toast } from "sonner";
 import { AlignJustify, X } from "lucide-react";
+import { role } from "@/utils/getSidebarItems";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -17,9 +18,12 @@ export default function Navbar() {
   const navigate = useNavigate();
 
   const navLinks = [
-    { href: "/", label: "Home" },
-    { href: "/about", label: "About" },
-    { href: "/contact", label: "Contact" },
+    { href: "/", label: "Home", role: "PUBLIC" },
+    { href: "/about", label: "About", role: "PUBLIC" },
+    { href: "/contact", label: "Contact", role: "PUBLIC" },
+    { href: "/admin", label: "Dashboard", role: role.ADMIN },
+    { href: "/sender", label: "Dashboard", role: role.SENDER },
+    { href: "/receiver", label: "Dashboard", role: role.RECEIVER },
   ];
 
   const handleLogout = async () => {
@@ -49,22 +53,43 @@ export default function Navbar() {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-6">
-            {navLinks.map((link) => (
-              <NavLink
-                key={link.label}
-                to={link.href}
-                end={link.href === "/"}
-                className={({ isActive }) =>
-                  `relative text-sm font-medium transition-colors duration-300 group ${
-                    isActive
-                      ? "text-red-600 dark:text-red-500"
-                      : "text-gray-600 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white"
-                  }`
-                }
-              >
-                {link.label}
-                <span className="absolute bottom-0 left-0 h-0.5 bg-red-600 w-0 group-hover:w-full transition-all duration-300 ease-out" />
-              </NavLink>
+            {navLinks.map((link, index) => (
+              <div key={index}>
+                {link.role === "PUBLIC" && (
+                  <NavLink
+                    key={link.label}
+                    to={link.href}
+                    end={link.href === "/"}
+                    className={({ isActive }) =>
+                      `relative text-sm font-medium transition-colors duration-300 group ${
+                        isActive
+                          ? "text-red-600 dark:text-red-500"
+                          : "text-gray-600 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white"
+                      }`
+                    }
+                  >
+                    {link.label}
+                    <span className="absolute bottom-0 left-0 h-0.5 bg-red-600 w-0 group-hover:w-full transition-all duration-300 ease-out" />
+                  </NavLink>
+                )}
+                {link.role === userData?.data?.role && (
+                  <NavLink
+                    key={link.label}
+                    to={link.href}
+                    end={link.href === "/"}
+                    className={({ isActive }) =>
+                      `relative text-sm font-medium transition-colors duration-300 group ${
+                        isActive
+                          ? "text-red-600 dark:text-red-500"
+                          : "text-gray-600 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white"
+                      }`
+                    }
+                  >
+                    {link.label}
+                    <span className="absolute bottom-0 left-0 h-0.5 bg-red-600 w-0 group-hover:w-full transition-all duration-300 ease-out" />
+                  </NavLink>
+                )}
+              </div>
             ))}
           </nav>
 
@@ -114,21 +139,40 @@ export default function Navbar() {
           id="mobile-menu"
         >
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            {navLinks.map((link) => (
-              <NavLink
-                key={link.label}
-                to={link.href}
-                end={link.href === "/"}
-                className={({ isActive }) =>
-                  `block px-3 py-2 rounded-md text-base font-medium transition-colors duration-300 ${
-                    isActive
-                      ? "text-red-500 dark:text-red-500 bg-red-50 dark:bg-red-950/20"
-                      : "text-gray-600 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white"
-                  }`
-                }
-              >
-                {link.label}
-              </NavLink>
+            {navLinks.map((link, index) => (
+              <div key={index}>
+                {link.role === "PUBLIC" && (
+                  <NavLink
+                    to={link.href}
+                    end={link.href === "/"}
+                    className={({ isActive }) =>
+                      `block px-3 py-2 rounded-md text-base font-medium transition-colors duration-300 ${
+                        isActive
+                          ? "text-red-500 dark:text-red-500 bg-red-50 dark:bg-red-950/20"
+                          : "text-gray-600 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white"
+                      }`
+                    }
+                  >
+                    {link.label}
+                  </NavLink>
+                )}
+                {link.role === userData?.data?.role && (
+                  <NavLink
+                    key={link.label}
+                    to={link.href}
+                    end={link.href === "/"}
+                    className={({ isActive }) =>
+                      `block px-3 py-2 rounded-md text-base font-medium transition-colors duration-300 ${
+                        isActive
+                          ? "text-red-500 dark:text-red-500 bg-red-50 dark:bg-red-950/20"
+                          : "text-gray-600 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white"
+                      }`
+                    }
+                  >
+                    {link.label}
+                  </NavLink>
+                )}
+              </div>
             ))}
             {userData && userData.data.email ? (
               <Button
