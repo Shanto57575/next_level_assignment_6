@@ -1,3 +1,11 @@
+import DataTable from "@/components/DataTable";
+import { useAllUsersQuery } from "@/redux/app/features/userApi";
+
 export default function AllUsers() {
-  return <div>AllUsers</div>;
+  const { data } = useAllUsersQuery(undefined);
+  return (
+    <div>
+      <DataTable data={data?.data} />
+    </div>
+  );
 }
