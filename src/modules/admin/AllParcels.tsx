@@ -21,40 +21,36 @@ import {
 } from "@/redux/app/features/parcelApi";
 import { toast } from "sonner";
 import type { IParcel } from "@/interfaces/parcel.interface";
+import Loader from "@/components/Loader";
 
 export default function AllParcels() {
-  const { data: ParcelData } = useAllParcelsQuery(undefined);
-  console.log(ParcelData);
+  const { data: ParcelData, isLoading } = useAllParcelsQuery(undefined);
   const [updateParcel] = useUpdateParcelMutation();
+  console.log("ParcelData==>", ParcelData);
 
   const handleStatus = async (id: string, value: string) => {
-    const toastId = toast.loading("updating status....");
     try {
-      const result = (await updateParcel({
+      await updateParcel({
         id,
         payload: {
           statusLog: {
             status: value,
           },
         },
-      })) as {
-        data?: { success?: boolean };
-        error?: { data?: { message?: string } };
-      };
-      if (result?.data?.success) {
-        toast.success(`status updated successfully`, { id: toastId });
-      } else {
-        toast.error(`${result?.error?.data?.message}`, { id: toastId });
-      }
+      }).unwrap();
+      toast.success(`status updated successfully`);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       console.log(error);
-      toast.error(`${error?.data?.message}`, { id: toastId });
+      toast.error(`${error?.data?.message}`);
     }
   };
 
+  if (isLoading) return <Loader />;
+
   return (
     <div className="mt-20 max-w-5xl w-full mx-auto bg-background overflow-hidden rounded-md border">
+      <h1 className="p-5">Manage Parcels</h1>
       <Table>
         <TableHeader>
           <TableRow className="bg-muted/50">
@@ -81,7 +77,7 @@ export default function AllParcels() {
               <TableCell className="py-2">
                 <Select
                   onValueChange={(e) => handleStatus(parcel._id, e)}
-                  defaultValue={parcel?.statusLogs.at(-1)?.status}
+                  value={parcel?.statusLogs.at(-1)?.status}
                 >
                   <SelectTrigger className="w-[145px]">
                     <SelectValue />

@@ -42,6 +42,7 @@ export default function DataTable(props: IAllUsersResponse) {
 
   return (
     <div className="mt-20 max-w-3xl w-full mx-auto bg-background overflow-hidden rounded-md border">
+      <h1 className="p-5">Manage Users</h1>
       <Table>
         <TableHeader>
           <TableRow className="bg-muted/50">

@@ -47,11 +47,11 @@ export default function RegisterForm({
   const [register, { isLoading }] = useRegisterMutation();
 
   const onSubmit = async (data: I_USER) => {
-    console.log(data);
     try {
       const result = await register(data).unwrap();
+      console.log(result);
 
-      if (result?.data?.success) {
+      if (result?.success) {
         toast.success(`User Registered Successfully, Please Login Now`);
         navigate("/login");
       }

@@ -337,7 +337,7 @@ export default function Contact() {
                 {services.map((service, index) => (
                   <div
                     key={index}
-                    className="flex items-start space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors"
+                    className="flex items-start space-x-3 p-3 rounded-lg hover:bg-red-100 dark:bg-transparent hover:shadow hover:shadow-red-500 transition-colors"
                   >
                     <div className="flex-shrink-0">
                       <service.icon className="w-6 h-6 text-red-600 mt-1" />
