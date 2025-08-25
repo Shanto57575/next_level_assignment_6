@@ -1,7 +1,8 @@
-import { ExternalLink, Package, Zap } from "lucide-react";
+import { ExternalLink, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import logo from "../../assets/icons/swiftDrops.png";
 import { GridPattern } from "./grid-pattern";
+import { Link } from "react-router";
 
 export default function Hero() {
   return (
@@ -56,22 +57,15 @@ export default function Hero() {
         </p>
 
         {/* CTA Buttons */}
-        <div className="flex flex-col sm:flex-row justify-center gap-4">
-          <Button className="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white px-8 py-[22px] rounded-sm shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 border-0">
-            <Package className="h-5 w-5" />
-            Start Delivery
-          </Button>
-
+        <Link to="/parcel-tracker">
           <Button
-            variant="outline"
-            size={"sm"}
-            className="group border-2 border-red-200 hover:border-red-300 bg-white/80 backdrop-blur-sm text-red-600 hover:text-red-700 px-8 py-5 rounded-sm hover:bg-red-50 transition-all duration-300"
+            variant={"outline"}
+            className="w-52 border-2 border-red-500 py-5 cursor-pointer"
           >
             Track Package
-            <ExternalLink className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+            <ExternalLink />
           </Button>
-        </div>
-
+        </Link>
         {/* Trust Indicators */}
         <div className="mt-16 flex flex-wrap justify-center items-center gap-8 opacity-60">
           <div className="text-sm text-gray-600 dark:text-gray-200 flex items-center gap-2">

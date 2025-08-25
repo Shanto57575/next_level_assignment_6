@@ -14,6 +14,7 @@ import { withAuth } from "@/utils/withAuth";
 import { role } from "@/utils/getSidebarItems";
 import type { TRole } from "@/interfaces/role.interface";
 import UnAuthorized from "@/pages/UnAuthorized";
+import ParcelTracker from "@/pages/ParcelTracker";
 
 export const router = createBrowserRouter([
   {
@@ -28,6 +29,10 @@ export const router = createBrowserRouter([
       {
         path: "/about",
         Component: About,
+      },
+      {
+        path: "/parcel-tracker",
+        Component: ParcelTracker,
       },
       {
         path: "/contact",

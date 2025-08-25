@@ -75,7 +75,7 @@ export default function InComingParcels() {
             {parcelData?.data?.map((parcel: IParcel) => (
               <TableRow key={parcel._id}>
                 <TableCell className="py-2 font-medium">
-                  {parcel.trackingId.slice(-10, -4)}
+                  {parcel.trackingId}
                 </TableCell>
                 <TableCell className="py-2">{parcel?.sender?.name}</TableCell>
                 <TableCell className="py-2">{parcel?.sender?.email}</TableCell>

@@ -21,10 +21,11 @@ export default function Navbar() {
   const navLinks = [
     { href: "/", label: "Home", role: "PUBLIC" },
     { href: "/about", label: "About", role: "PUBLIC" },
-    { href: "/contact", label: "Contact", role: "PUBLIC" },
+    { href: "/parcel-tracker", label: "Track Parcel", role: "PUBLIC" },
     { href: "/admin", label: "Dashboard", role: role.ADMIN },
     { href: "/sender", label: "Dashboard", role: role.SENDER },
     { href: "/receiver", label: "Dashboard", role: role.RECEIVER },
+    { href: "/contact", label: "Contact", role: "PUBLIC" },
   ];
 
   const dispatch = useAppDispatch();

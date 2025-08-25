@@ -1,3 +1,5 @@
+import type { IUser } from "./user.interface";
+
 export interface IUserSummary {
   _id: string;
   name: string;
@@ -7,7 +9,7 @@ export interface IUserSummary {
 export interface IStatusLog {
   status: string;
   note?: string;
-  updatedBy: string;
+  updatedBy: Partial<IUser>;
   updatedAt: string;
 }
 

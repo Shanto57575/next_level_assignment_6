@@ -55,6 +55,14 @@ export const parcelApi = baseApi.injectEndpoints({
       }),
       providesTags: ["PARCEL"],
     }),
+    trackParcel: builder.query({
+      query: (params) => ({
+        url: "/parcel/parcel-tracker",
+        method: "GET",
+        params,
+      }),
+      providesTags: ["PARCEL"],
+    }),
     myParcels: builder.query({
       query: (id) => ({
         url: `/parcel/my-parcels/${id}`,
@@ -70,4 +78,5 @@ export const {
   useAddParcelMutation,
   useUpdateParcelMutation,
   useMyParcelsQuery,
+  useLazyTrackParcelQuery,
 } = parcelApi;
