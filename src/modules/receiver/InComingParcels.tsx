@@ -54,71 +54,77 @@ export default function InComingParcels() {
   if (userLoading || parcelLoading) return <Loader />;
 
   return (
-    <div className="mt-20 max-w-5xl w-full mx-auto bg-background overflow-hidden rounded-md border">
-      <h1 className="p-5">My Parcels</h1>
+    <div>
       {parcelData?.data?.length === 0 ? (
-        "You Have No upcoming parcel"
+        <h1 className="text-center text-xl mt-20">
+          You Have No Incoming parcel !!!
+        </h1>
       ) : (
-        <Table>
-          <TableHeader>
-            <TableRow className="bg-muted/50">
-              <TableHead className="h-9 py-2">TrackingId</TableHead>
-              <TableHead className="h-9 py-2">SenderName</TableHead>
-              <TableHead className="h-9 py-2">SenderEmail</TableHead>
-              <TableHead className="h-9 py-2">ReceiverName(Me)</TableHead>
-              <TableHead className="h-9 py-2">ReceiverEmail</TableHead>
-              <TableHead className="h-9 py-2">Delivery Fee</TableHead>
-              <TableHead className="h-9 py-2">Status</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {parcelData?.data?.map((parcel: IParcel) => (
-              <TableRow key={parcel._id}>
-                <TableCell className="py-2 font-medium">
-                  {parcel.trackingId}
-                </TableCell>
-                <TableCell className="py-2">{parcel?.sender?.name}</TableCell>
-                <TableCell className="py-2">{parcel?.sender?.email}</TableCell>
-                <TableCell className="py-2">{parcel?.receiver?.name}</TableCell>
-                <TableCell className="py-2">
-                  {parcel?.receiver?.email}
-                </TableCell>
-                <TableCell className="py-2">{parcel?.fee}</TableCell>
-                <TableCell className="py-2">
-                  <Select
-                    onValueChange={(newValue) =>
-                      handleStatus(parcel._id, newValue)
-                    }
-                    value={parcel?.statusLogs.at(-1)?.status}
-                  >
-                    <SelectTrigger className="w-[145px]">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectGroup>
-                        <SelectLabel>Status</SelectLabel>
-                        <SelectItem disabled value="REQUESTED">
-                          REQUESTED
-                        </SelectItem>
-                        <SelectItem disabled value="APPROVED">
-                          APPROVED
-                        </SelectItem>
-                        <SelectItem disabled value="DISPATCHED">
-                          DISPATCHED
-                        </SelectItem>
-                        <SelectItem disabled value="IN_TRANSIT">
-                          IN_TRANSIT
-                        </SelectItem>
-                        <SelectItem value="CANCELLED">CANCELLED</SelectItem>
-                        <SelectItem value="CONFIRMED">CONFIRMED</SelectItem>
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
-                </TableCell>
+        <div className="mt-20 max-w-5xl w-full mx-auto bg-background overflow-hidden rounded-md border">
+          <h1 className="p-5">My Parcels</h1>
+
+          <Table>
+            <TableHeader>
+              <TableRow className="bg-muted/50">
+                <TableHead className="h-9 py-2">TrackingId</TableHead>
+                <TableHead className="h-9 py-2">SenderName</TableHead>
+                <TableHead className="h-9 py-2">SenderEmail</TableHead>
+                <TableHead className="h-9 py-2">ReceiverName(Me)</TableHead>
+                <TableHead className="h-9 py-2">ReceiverEmail</TableHead>
+                <TableHead className="h-9 py-2">Delivery Fee</TableHead>
+                <TableHead className="h-9 py-2">Status</TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHeader>
+            <TableBody>
+              {parcelData?.data?.map((parcel: IParcel) => (
+                <TableRow key={parcel._id}>
+                  <TableCell className="py-2 font-medium">
+                    {parcel.trackingId}
+                  </TableCell>
+                  <TableCell className="py-2">{parcel?.sender?.name}</TableCell>
+                  <TableCell className="py-2">
+                    {parcel?.sender?.email}
+                  </TableCell>
+                  <TableCell className="py-2">
+                    {parcel?.receiver?.name}
+                  </TableCell>
+                  <TableCell className="py-2">
+                    {parcel?.receiver?.email}
+                  </TableCell>
+                  <TableCell className="py-2">{parcel?.fee}</TableCell>
+                  <TableCell className="py-2">
+                    <Select
+                      onValueChange={(newValue) =>
+                        handleStatus(parcel._id, newValue)
+                      }
+                      value={parcel?.statusLogs.at(-1)?.status}
+                    >
+                      <SelectTrigger className="w-[145px]">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectGroup>
+                          <SelectLabel>Status</SelectLabel>
+                          <SelectItem disabled value="REQUESTED">
+                            REQUESTED
+                          </SelectItem>
+                          <SelectItem disabled value="APPROVED">
+                            APPROVED
+                          </SelectItem>
+                          <SelectItem disabled value="DISPATCHED">
+                            DISPATCHED
+                          </SelectItem>
+                          <SelectItem value="CANCELLED">CANCELLED</SelectItem>
+                          <SelectItem value="CONFIRMED">CONFIRMED</SelectItem>
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
       )}
     </div>
   );

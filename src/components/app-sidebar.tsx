@@ -12,7 +12,7 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from "@/components/ui/sidebar";
-import { Link, useLocation } from "react-router";
+import { Link } from "react-router";
 import { getSidebarItems } from "@/utils/getSidebarItems";
 import { useProfileQuery } from "@/redux/app/features/authApi";
 
@@ -22,8 +22,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const data = {
     navMain: getSidebarItems(userData?.data?.role),
   };
-
-  const location = useLocation();
 
   return (
     <Sidebar {...props}>

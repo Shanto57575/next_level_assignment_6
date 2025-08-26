@@ -23,14 +23,21 @@ import {
 import type { IParcel } from "@/interfaces/parcel.interface";
 import { toast } from "sonner";
 import Loader from "@/components/Loader";
+import { useState } from "react";
+import Paginate from "@/components/Paginate";
 
 export default function SenderParcels() {
   const { data: userData, isLoading: userLoading } = useProfileQuery(undefined);
+  const [currentPage, setCurrentPage] = useState(1);
+  const dataPerPage = 5;
 
-  const { data: parcelData, isLoading: parcelLoading } = useMyParcelsQuery(
+  const { data: ParcelData, isLoading: parcelLoading } = useMyParcelsQuery(
     userData?.data?._id,
-    { skip: !userData?.data?._id }
+    { skip: !userData?.data?._id, refetchOnMountOrArgChange: true }
   );
+
+  const totalData = ParcelData?.data?.totalParcel;
+  const totalPage = Math.ceil(totalData / dataPerPage);
 
   const [updateParcel] = useUpdateParcelMutation();
 
@@ -55,63 +62,77 @@ export default function SenderParcels() {
   if (userLoading || parcelLoading) return <Loader />;
 
   return (
-    <div className="mt-20 max-w-5xl w-full mx-auto bg-background overflow-hidden rounded-md border">
-      <h1 className="p-5">My Parcels</h1>
-      {parcelData?.data?.length === 0 ? (
-        "You Have'nt created your first parcel yet"
+    <div>
+      {ParcelData?.data?.length === 0 ? (
+        <h1 className="text-center text-xl mt-20">
+          You Have'nt created any parcel yet !!!
+        </h1>
       ) : (
-        <Table>
-          <TableHeader>
-            <TableRow className="bg-muted/50">
-              <TableHead className="h-9 py-2">TrackingId</TableHead>
-              <TableHead className="h-9 py-2">SenderName</TableHead>
-              <TableHead className="h-9 py-2">SenderEmail</TableHead>
-              <TableHead className="h-9 py-2">ReceiverName</TableHead>
-              <TableHead className="h-9 py-2">ReceiverEmail</TableHead>
-              <TableHead className="h-9 py-2">Delivery Fee</TableHead>
-              <TableHead className="h-9 py-2">Status</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {parcelData?.data?.map((parcel: IParcel) => (
-              <TableRow key={parcel._id}>
-                <TableCell className="py-2 font-medium">
-                  {parcel.trackingId}
-                </TableCell>
-                <TableCell className="py-2">{parcel?.sender?.name}</TableCell>
-                <TableCell className="py-2">{parcel?.sender?.email}</TableCell>
-                <TableCell className="py-2">{parcel?.receiver?.name}</TableCell>
-                <TableCell className="py-2">
-                  {parcel?.receiver?.email}
-                </TableCell>
-                <TableCell className="py-2">{parcel?.fee}</TableCell>
-                <TableCell className="py-2">
-                  <Select
-                    onValueChange={(newValue) =>
-                      handleStatus(parcel._id, newValue)
-                    }
-                    value={parcel?.statusLogs.at(-1)?.status}
-                  >
-                    <SelectTrigger className="w-[145px]">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectGroup>
-                        <SelectLabel>Status</SelectLabel>
-                        <SelectItem value="REQUESTED">REQUESTED</SelectItem>
-                        <SelectItem value="APPROVED">APPROVED</SelectItem>
-                        <SelectItem value="DISPATCHED">DISPATCHED</SelectItem>
-                        <SelectItem value="IN_TRANSIT">IN_TRANSIT</SelectItem>
-                        <SelectItem value="CANCELLED">CANCELLED</SelectItem>
-                        <SelectItem value="CONFIRMED">CONFIRMED</SelectItem>
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
-                </TableCell>
+        <div className="mt-20 max-w-5xl w-full mx-auto bg-background overflow-hidden rounded-md border">
+          <h1 className="p-5">My Parcels</h1>
+          <Table>
+            <TableHeader>
+              <TableRow className="bg-muted/50">
+                <TableHead className="h-9 py-2">TrackingId</TableHead>
+                <TableHead className="h-9 py-2">SenderName</TableHead>
+                <TableHead className="h-9 py-2">SenderEmail</TableHead>
+                <TableHead className="h-9 py-2">ReceiverName</TableHead>
+                <TableHead className="h-9 py-2">ReceiverEmail</TableHead>
+                <TableHead className="h-9 py-2">Delivery Fee</TableHead>
+                <TableHead className="h-9 py-2">Status</TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHeader>
+            <TableBody>
+              {ParcelData?.data?.map((parcel: IParcel) => (
+                <TableRow key={parcel._id}>
+                  <TableCell className="py-2 font-medium">
+                    {parcel.trackingId}
+                  </TableCell>
+                  <TableCell className="py-2">{parcel?.sender?.name}</TableCell>
+                  <TableCell className="py-2">
+                    {parcel?.sender?.email}
+                  </TableCell>
+                  <TableCell className="py-2">
+                    {parcel?.receiver?.name}
+                  </TableCell>
+                  <TableCell className="py-2">
+                    {parcel?.receiver?.email}
+                  </TableCell>
+                  <TableCell className="py-2">{parcel?.fee}</TableCell>
+                  <TableCell className="py-2">
+                    <Select
+                      onValueChange={(newValue) =>
+                        handleStatus(parcel._id, newValue)
+                      }
+                      value={parcel?.statusLogs.at(-1)?.status}
+                    >
+                      <SelectTrigger className="w-[145px]">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectGroup>
+                          <SelectLabel>Status</SelectLabel>
+                          <SelectItem value="REQUESTED">REQUESTED</SelectItem>
+                          <SelectItem value="APPROVED">APPROVED</SelectItem>
+                          <SelectItem value="DISPATCHED">DISPATCHED</SelectItem>
+                          <SelectItem value="CANCELLED">CANCELLED</SelectItem>
+                          <SelectItem value="CONFIRMED">CONFIRMED</SelectItem>
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+      )}
+      {totalPage > 1 && (
+        <Paginate
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          totalPage={totalPage}
+        />
       )}
     </div>
   );

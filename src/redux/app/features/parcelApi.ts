@@ -8,6 +8,7 @@ export const parcelApi = baseApi.injectEndpoints({
         method: "POST",
         data: parcelInfo,
       }),
+      invalidatesTags: ["PARCEL"],
     }),
     updateParcel: builder.mutation({
       query: ({ id, payload }) => ({

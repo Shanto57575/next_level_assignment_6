@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Link, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import {
   Form,
   FormControl,
@@ -35,13 +35,14 @@ export default function LoginForm({
   });
 
   const [login, { isLoading }] = useLoginMutation();
-
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
   const onSubmit = async (data: Partial<I_USER>) => {
     try {
       const result = await login(data).unwrap();
       if (result?.success) {
         toast.success(`Logged in Successfully`);
-        navigate("/");
+        navigate(from, { replace: true });
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {

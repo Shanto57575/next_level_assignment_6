@@ -62,7 +62,7 @@ export default function AllUsers() {
   return (
     <>
       <h1 className="max-w-3xl w-full mx-auto mt-10">Manage Users</h1>
-      <div className="max-w-3xl w-full mx-auto bg-background overflow-hidden rounded-md border">
+      <div className="min-h-[50vh] max-w-3xl w-full mx-auto bg-background overflow-hidden rounded-md border">
         <Table>
           <TableHeader>
             <TableRow className="bg-muted/50">
@@ -102,11 +102,13 @@ export default function AllUsers() {
           </TableBody>
         </Table>
       </div>
-      <Paginate
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
-        totalPage={totalPage}
-      />
+      {totalPage > 1 && (
+        <Paginate
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          totalPage={totalPage}
+        />
+      )}
     </>
   );
 }
