@@ -23,23 +23,24 @@ import { toast } from "sonner";
 import { useProfileQuery } from "@/redux/app/features/authApi";
 import { useState } from "react";
 import Paginate from "@/components/Paginate";
+import DashboardSearch from "@/components/DashboardSearch";
 
 export default function AllUsers() {
   const [updateUser] = useUpdateUserMutation();
   const { data: userData } = useProfileQuery(undefined);
   const [currentPage, setCurrentPage] = useState(1);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const dataPerPage = 5;
-
+  console.log(searchTerm);
   const { data: AllUsers, isLoading } = useAllUsersQuery({
     page: currentPage,
     limit: dataPerPage,
+    searchTerm,
   });
 
-  console.log(AllUsers);
   const totalData = AllUsers?.data?.totalUser;
   const totalPage = Math.ceil(totalData / dataPerPage);
-  console.log(totalPage);
 
   const handleStatus = async (id: string, value: string) => {
     const toastId = toast.loading("updating status....");
@@ -60,9 +61,16 @@ export default function AllUsers() {
   if (isLoading) return <Loader />;
 
   return (
-    <>
-      <h1 className="max-w-3xl w-full mx-auto mt-10">Manage Users</h1>
-      <div className="min-h-[50vh] max-w-3xl w-full mx-auto bg-background overflow-hidden rounded-md border">
+    <div className="w-full max-w-3xl mx-auto min-h-[70vh] flex flex-col gap-y-3 justify-center">
+      <div className="flex items-center justify-between">
+        <h1>My Users</h1>
+        <DashboardSearch
+          placeHolderText="search by name or email"
+          result={searchTerm}
+          setResult={setSearchTerm}
+        />
+      </div>
+      <div className="min-h-[35vh] bg-background overflow-hidden rounded-md border">
         <Table>
           <TableHeader>
             <TableRow className="bg-muted/50">
@@ -84,7 +92,7 @@ export default function AllUsers() {
                     onValueChange={(e) => handleStatus(user._id, e)}
                     defaultValue={user?.isActive}
                   >
-                    <SelectTrigger className="w-[120px]">
+                    <SelectTrigger className="w-full">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -109,6 +117,6 @@ export default function AllUsers() {
           totalPage={totalPage}
         />
       )}
-    </>
+    </div>
   );
 }

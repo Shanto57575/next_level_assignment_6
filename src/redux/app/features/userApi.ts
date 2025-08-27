@@ -17,8 +17,8 @@ export const userApi = baseApi.injectEndpoints({
       }),
     }),
     allUsers: builder.query({
-      query: ({ page, limit }) => ({
-        url: `/user/all-users/?page=${page}&limit=${limit}`,
+      query: ({ page, limit, searchTerm }) => ({
+        url: `/user/all-users/?page=${page}&limit=${limit}&searchTerm=${searchTerm}`,
         method: "GET",
       }),
     }),

@@ -62,22 +62,22 @@ export default function Hero() {
             variant={"outline"}
             className="w-52 border-2 border-red-500 py-5 cursor-pointer"
           >
-            Track Package
+            Track Parcel
             <ExternalLink />
           </Button>
         </Link>
         {/* Trust Indicators */}
-        <div className="mt-16 flex flex-wrap justify-center items-center gap-8 opacity-60">
-          <div className="text-sm text-gray-600 dark:text-gray-200 flex items-center gap-2">
-            <div className="w-2 h-2 bg-green-600 dark:bg-green-400 rounded-full"></div>
+        <div className="mt-16 flex flex-wrap justify-center text-black font-semibold dark:text-white items-center gap-8 opacity-60">
+          <div className="text-sm flex items-center gap-2">
+            <div className="w-2 h-2 bg-green-500 dark:bg-green-400 rounded-full"></div>
             Live Tracking
           </div>
-          <div className="text-sm text-gray-600 dark:text-gray-200 flex items-center gap-2">
-            <div className="w-2 h-2 bg-blue-600 dark:bg-blue-400 rounded-full"></div>
+          <div className="text-sm flex items-center gap-2">
+            <div className="w-2 h-2 bg-blue-500 dark:bg-blue-400 rounded-full"></div>
             24/7 Support
           </div>
-          <div className="text-sm text-gray-600 dark:text-gray-200 flex items-center gap-2">
-            <div className="w-2 h-2 bg-purple-600 dark:bg-purple-400 rounded-full"></div>
+          <div className="text-sm flex items-center gap-2">
+            <div className="w-2 h-2 bg-purple-500 dark:bg-purple-400 rounded-full"></div>
             Insured Packages
           </div>
         </div>

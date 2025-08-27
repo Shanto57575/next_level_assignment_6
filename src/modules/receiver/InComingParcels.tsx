@@ -23,14 +23,37 @@ import {
 } from "@/redux/app/features/parcelApi";
 import { toast } from "sonner";
 import type { IParcel } from "@/interfaces/parcel.interface";
+import { useState } from "react";
+import Paginate from "@/components/Paginate";
+import DashboardSearch from "@/components/DashboardSearch";
+import StatusModal from "../common/StatusModal";
 
 export default function InComingParcels() {
   const { data: userData, isLoading: userLoading } = useProfileQuery(undefined);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [sortingValue, setSortingValue] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const dataPerPage = 5;
 
   const { data: parcelData, isLoading: parcelLoading } = useMyParcelsQuery(
-    userData?.data?._id,
+    {
+      id: userData?.data?._id,
+      params: {
+        page: currentPage,
+        limit: dataPerPage,
+        sort: sortingValue,
+        searchTerm,
+      },
+    },
     { skip: !userData?.data?._id }
   );
+
+  const totalData = parcelData?.data?.total;
+  const totalPage = Math.ceil(totalData / dataPerPage);
+
+  console.log(parcelData);
+
   const [updateParcel] = useUpdateParcelMutation();
 
   const handleStatus = async (id: string, newStatus: string) => {
@@ -53,16 +76,47 @@ export default function InComingParcels() {
 
   if (userLoading || parcelLoading) return <Loader />;
 
-  return (
-    <div>
-      {parcelData?.data?.length === 0 ? (
-        <h1 className="text-center text-xl mt-20">
-          You Have No Incoming parcel !!!
-        </h1>
-      ) : (
-        <div className="mt-20 max-w-5xl w-full mx-auto bg-background overflow-hidden rounded-md border">
-          <h1 className="p-5">My Parcels</h1>
+  const searchSortUI = (
+    <div className="w-full max-w-7xl mx-auto flex items-center justify-between gap-x-3 mt-10 mb-5">
+      <h1>Incoming Parcels</h1>
+      <DashboardSearch
+        placeHolderText="search by Tracking Id"
+        result={searchTerm}
+        setResult={setSearchTerm}
+      />
+      <Select onValueChange={(e) => setSortingValue(e)}>
+        <SelectTrigger className="cursor-pointer mr-5">
+          <SelectValue placeholder="Sort By" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="LATEST">Latest Parcel</SelectItem>
+          <SelectItem value="OLDEST">Oldest Parcel</SelectItem>
+        </SelectContent>
+      </Select>
+    </div>
+  );
 
+  if (parcelData?.data?.data?.length === 0) {
+    return (
+      <>
+        {searchSortUI}
+        <div className="min-h-[50vh] max-w-7xl w-full mx-auto bg-background overflow-hidden rounded-md border flex items-center justify-center">
+          <h1 className="text-center text-xl">
+            {searchTerm
+              ? "No search result"
+              : "You Have No Incoming parcel !!!"}
+          </h1>
+        </div>
+      </>
+    );
+  }
+
+  return (
+    <>
+      <>
+        {" "}
+        {searchSortUI}
+        <div className="max-w-7xl w-full mx-auto bg-background overflow-hidden rounded-md border">
           <Table>
             <TableHeader>
               <TableRow className="bg-muted/50">
@@ -72,11 +126,13 @@ export default function InComingParcels() {
                 <TableHead className="h-9 py-2">ReceiverName(Me)</TableHead>
                 <TableHead className="h-9 py-2">ReceiverEmail</TableHead>
                 <TableHead className="h-9 py-2">Delivery Fee</TableHead>
+                <TableHead className="h-9 py-2">Delivery Time</TableHead>
                 <TableHead className="h-9 py-2">Status</TableHead>
+                <TableHead className="h-9 py-2">Status Logs</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {parcelData?.data?.map((parcel: IParcel) => (
+              {parcelData?.data?.data?.map((parcel: IParcel) => (
                 <TableRow key={parcel._id}>
                   <TableCell className="py-2 font-medium">
                     {parcel.trackingId}
@@ -92,6 +148,13 @@ export default function InComingParcels() {
                     {parcel?.receiver?.email}
                   </TableCell>
                   <TableCell className="py-2">{parcel?.fee}</TableCell>
+                  <TableCell className="py-2">
+                    {new Date(parcel?.createdAt).toLocaleDateString()}{" "}
+                    {new Date(parcel?.createdAt).toLocaleTimeString([], {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}{" "}
+                  </TableCell>
                   <TableCell className="py-2">
                     <Select
                       onValueChange={(newValue) =>
@@ -120,12 +183,25 @@ export default function InComingParcels() {
                       </SelectContent>
                     </Select>
                   </TableCell>
+                  <TableCell>
+                    <StatusModal
+                      trackingId={parcel.trackingId}
+                      statusLogs={parcel.statusLogs}
+                    />
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
         </div>
+      </>
+      {totalPage > 1 && (
+        <Paginate
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          totalPage={totalPage}
+        />
       )}
-    </div>
+    </>
   );
 }

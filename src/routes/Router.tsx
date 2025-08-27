@@ -15,11 +15,13 @@ import { role } from "@/utils/getSidebarItems";
 import type { TRole } from "@/interfaces/role.interface";
 import UnAuthorized from "@/pages/UnAuthorized";
 import ParcelTracker from "@/pages/ParcelTracker";
+import ErrorPage from "@/pages/ErrorPage";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     Component: App,
+    errorElement: <ErrorPage />,
     children: [
       {
         index: true,
@@ -44,7 +46,7 @@ export const router = createBrowserRouter([
     path: "/admin",
     Component: withAuth(DashboardLayout, role.ADMIN as TRole),
     children: [
-      { index: true, element: <Navigate to="/admin/all-users" /> },
+      { index: true, element: <Navigate to="/admin/analytics" /> },
       ...generateRoutes(adminSidebarItems),
     ],
   },

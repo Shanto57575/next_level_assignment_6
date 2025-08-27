@@ -13,13 +13,13 @@ export default function Register() {
         />
       </div>
 
-      <div className="flex flex-col gap-4 p-6 md:p-10">
+      <div className="flex flex-col justify-center gap-4 p-6 md:p-10">
         <div className="flex justify-center gap-2">
           <Link to="/" className="flex items-center gap-2 font-medium">
             <img className="w-28 h-28" src={logo} alt="logo" />
           </Link>
         </div>
-        <div className="flex flex-1 items-center justify-center">
+        <div className="flex items-center justify-center">
           <div className="w-full max-w-xs">
             <RegisterForm />
           </div>

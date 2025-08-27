@@ -50,8 +50,8 @@ export const parcelApi = baseApi.injectEndpoints({
       invalidatesTags: ["PARCEL"],
     }),
     allParcels: builder.query({
-      query: ({ page, limit }) => ({
-        url: `/parcel/all-parcels?page=${page}&limit=${limit}`,
+      query: ({ page, limit, sort, searchTerm }) => ({
+        url: `/parcel/all-parcels?page=${page}&limit=${limit}&sort=${sort}&searchTerm=${searchTerm}`,
         method: "GET",
       }),
       providesTags: ["PARCEL"],
@@ -65,8 +65,15 @@ export const parcelApi = baseApi.injectEndpoints({
       providesTags: ["PARCEL"],
     }),
     myParcels: builder.query({
-      query: (id) => ({
-        url: `/parcel/my-parcels/${id}`,
+      query: ({ id, params }) => ({
+        url: `/parcel/my-parcels/${id}?page=${params?.page}&limit=${params?.limit}&sort=${params.sort}&searchTerm=${params.searchTerm}`,
+        method: "GET",
+      }),
+      providesTags: ["PARCEL"],
+    }),
+    analyticsData: builder.query({
+      query: () => ({
+        url: `/parcel/analytics`,
         method: "GET",
       }),
       providesTags: ["PARCEL"],
@@ -79,5 +86,6 @@ export const {
   useAddParcelMutation,
   useUpdateParcelMutation,
   useMyParcelsQuery,
+  useAnalyticsDataQuery,
   useLazyTrackParcelQuery,
 } = parcelApi;

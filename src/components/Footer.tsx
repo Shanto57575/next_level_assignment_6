@@ -1,32 +1,31 @@
 import { Link } from "react-router";
 import logo from "../assets/icons/swiftDrops.png";
-import { Button } from "./ui/button";
 
 export default function Footer() {
   const footerLinks = {
     services: [
-      { name: "Send a Parcel", href: "/send" },
-      { name: "Track Shipment", href: "/track" },
-      { name: "Delivery Rates", href: "/pricing" },
-      { name: "International Shipping", href: "/international" },
+      { name: "Send a Parcel", href: "#" },
+      { name: "Track Shipment", href: "#" },
+      { name: "Delivery Rates", href: "#" },
+      { name: "International Shipping", href: "#" },
     ],
     company: [
       { name: "About Us", href: "/about" },
-      { name: "Careers", href: "/careers" },
-      { name: "News & Updates", href: "/news" },
+      { name: "Careers", href: "#" },
+      { name: "News & Updates", href: "#" },
       { name: "Contact", href: "/contact" },
     ],
     support: [
-      { name: "Help Center", href: "/support" },
-      { name: "FAQs", href: "/faq" },
-      { name: "Shipping Guide", href: "/guide" },
-      { name: "Report an Issue", href: "/report" },
+      { name: "Help Center", href: "#" },
+      { name: "FAQs", href: "#" },
+      { name: "Shipping Guide", href: "#" },
+      { name: "Report an Issue", href: "#" },
     ],
     legal: [
-      { name: "Terms & Conditions", href: "/terms" },
-      { name: "Privacy Policy", href: "/privacy" },
-      { name: "Refund Policy", href: "/refund" },
-      { name: "Cookie Policy", href: "/cookies" },
+      { name: "Terms & Conditions", href: "#" },
+      { name: "Privacy Policy", href: "#" },
+      { name: "Refund Policy", href: "#" },
+      { name: "Cookie Policy", href: "#" },
     ],
   };
 
@@ -116,22 +115,16 @@ export default function Footer() {
             <Link to="/" className="flex justify-center lg:justify-start">
               <img src={logo} className="w-28 h-28" alt="SwiftDrop Logo" />
             </Link>
-            <p className="py-6 text-sm text-gray-500 dark:text-gray-400 lg:max-w-xs text-center lg:text-left">
+            <p className="font-sans pb-6 text-sm text-gray-500 dark:text-gray-300 lg:max-w-xs text-center lg:text-left">
               SwiftDrop is your trusted parcel delivery partner in more than 100
               countries, delivering millions of packages securely & on time.
             </p>
-            <Link
-              to="/contact"
-              className="flex justify-center lg:justify-start"
-            >
-              <Button variant={"outline"}>Contact Us</Button>
-            </Link>
           </div>
 
           {/* Footer Links */}
           {Object.entries(footerLinks).map(([title, links]) => (
             <div key={title} className="lg:mx-auto text-left">
-              <h4 className="text-lg text-gray-900 dark:text-white font-medium mb-7 capitalize">
+              <h4 className="font-serif text-lg text-gray-900 dark:text-white font-medium mb-7 capitalize">
                 {title}
               </h4>
               <ul className="text-sm transition-all duration-500">
@@ -142,7 +135,7 @@ export default function Footer() {
                   >
                     <Link
                       to={link.href}
-                      className="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400"
+                      className="text-gray-600 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-500"
                     >
                       {link.name}
                     </Link>
@@ -156,7 +149,7 @@ export default function Footer() {
         {/* Bottom Bar */}
         <div className="py-6 border-t border-gray-200 dark:border-gray-700">
           <div className="flex items-center justify-center flex-col lg:justify-between lg:flex-row">
-            <span className="text-sm text-gray-500 dark:text-gray-400 text-center">
+            <span className="font-sans text-sm text-gray-500 dark:text-gray-400 text-center">
               ©{" "}
               <Link
                 to="/"
@@ -164,7 +157,9 @@ export default function Footer() {
               >
                 SwiftDrop
               </Link>{" "}
-              {new Date().getFullYear()} · All Rights Reserved
+              <span className="font-bold">{new Date().getFullYear()}</span> ·
+              All Rights Reserved by{" "}
+              <span className="font-serif text-accent-foreground">Sh@nto</span>
             </span>
             <div className="flex mt-4 space-x-4 sm:justify-center lg:mt-0">
               {socialLinks.map((link) => (

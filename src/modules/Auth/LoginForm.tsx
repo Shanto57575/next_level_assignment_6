@@ -47,7 +47,7 @@ export default function LoginForm({
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       console.log(error);
-      toast.error(`${error.data.message}`);
+      toast.error(`${error.data.message ? error.data.message : error.data}`);
     }
   };
 
