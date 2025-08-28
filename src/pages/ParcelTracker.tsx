@@ -15,7 +15,6 @@ export default function ParcelTracker() {
   };
 
   if (isParcelLoading) return <Loader />;
-  console.log(parcelData);
 
   const getStatusBadgeColor = (status: string) => {
     switch (status) {

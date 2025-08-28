@@ -32,7 +32,6 @@ export default function AllUsers() {
   const [searchTerm, setSearchTerm] = useState("");
 
   const dataPerPage = 5;
-  console.log(searchTerm);
   const { data: AllUsers, isLoading } = useAllUsersQuery({
     page: currentPage,
     limit: dataPerPage,
@@ -52,8 +51,7 @@ export default function AllUsers() {
       if (result?.data?.success) {
         toast.success(`status updated successfully`, { id: toastId });
       }
-    } catch (error) {
-      console.log(error);
+    } catch {
       toast.error(`failed to update status`, { id: toastId });
     }
   };

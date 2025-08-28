@@ -31,7 +31,7 @@ export default function Hero() {
         </div>
 
         {/* Main Heading */}
-        <h1 className="mb-6 text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight">
+        <h1 className="mb-6 text-4xl md:text-6xl font-bold tracking-tight">
           <span className="bg-gradient-to-r from-red-600 via-red-700 to-red-900 bg-clip-text text-transparent">
             Lightning-Fast
           </span>
@@ -39,7 +39,7 @@ export default function Hero() {
             <Zap className="w-10 h-10 md:w-12 md:h-12 text-red-500 animate-pulse" />
             SwiftDrop
           </span>
-          <span className="text-red-700 bg-clip-text text-3xl md:text-5xl lg:text-6xl">
+          <span className="text-red-700 bg-clip-text text-3xl md:text-4xl lg:text-5xl">
             Delivery
           </span>
         </h1>

@@ -49,7 +49,6 @@ export default function RegisterForm({
   const onSubmit = async (data: I_USER) => {
     try {
       const result = await register(data).unwrap();
-      console.log(result);
 
       if (result?.success) {
         toast.success(`User Registered Successfully, Please Login Now`);
@@ -57,7 +56,6 @@ export default function RegisterForm({
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      console.log(error);
       toast.error(`${error.data.message}`);
     }
   };

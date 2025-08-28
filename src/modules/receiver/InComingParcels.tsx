@@ -52,8 +52,6 @@ export default function InComingParcels() {
   const totalData = parcelData?.data?.total;
   const totalPage = Math.ceil(totalData / dataPerPage);
 
-  console.log(parcelData);
-
   const [updateParcel] = useUpdateParcelMutation();
 
   const handleStatus = async (id: string, newStatus: string) => {

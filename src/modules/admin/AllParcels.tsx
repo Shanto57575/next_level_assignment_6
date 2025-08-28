@@ -42,8 +42,6 @@ export default function AllParcels() {
     searchTerm,
   });
 
-  console.log(ParcelData);
-
   const totalData = ParcelData?.data?.totalParcel;
   const totalPage = Math.ceil(totalData / dataPerPage);
 
@@ -60,7 +58,6 @@ export default function AllParcels() {
       toast.success(`status updated successfully`);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      console.log(error);
       toast.error(`${error?.data?.message}`);
     }
   };

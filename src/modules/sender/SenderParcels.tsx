@@ -51,7 +51,6 @@ export default function SenderParcels() {
 
   const totalData = ParcelData?.data?.total || 0;
   const totalPage = Math.ceil(totalData / dataPerPage);
-  console.log(ParcelData, totalData, totalPage);
   const [updateParcel] = useUpdateParcelMutation();
 
   const handleStatus = async (id: string, newStatus: string) => {

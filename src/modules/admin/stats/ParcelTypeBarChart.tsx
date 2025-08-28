@@ -18,7 +18,6 @@ interface Props {
 }
 
 export default function ParcelTypeBarChart({ typeData }: Props) {
-  console.log("ParcelTypeBarChart", typeData);
   const chartConfig = typeData?.reduce((acc, item) => {
     acc[item.type] = { label: item.type, color: "var(--chart-1)" };
     return acc;

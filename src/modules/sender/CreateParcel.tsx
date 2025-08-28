@@ -68,15 +68,13 @@ export default function CreateParcel() {
     };
     try {
       const result = await addParcel(payload);
-      console.log(result);
       if (result?.data?.success) {
         toast.success("Parcel created successfully!", { id: toastId });
         form.reset();
       } else {
         toast.error("Failed to create parcel.", { id: toastId });
       }
-    } catch (err) {
-      console.error(err);
+    } catch {
       toast.error("Failed to create parcel.", { id: toastId });
     }
   };

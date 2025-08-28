@@ -32,7 +32,7 @@ export default function About() {
 
               {/* Main Content */}
               <div className="space-y-6">
-                <div className="inline-block px-4 py-2 bg-red-50 dark:bg-red-950 text-red-600 dark:text-red-400 text-sm font-medium rounded-full">
+                <div className="font-serif inline-block px-4 py-2 bg-red-50 dark:bg-red-950 text-red-600 dark:text-red-400 text-sm font-medium rounded-full">
                   Professional Logistics
                 </div>
 
@@ -102,7 +102,7 @@ export default function About() {
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div className="space-y-8">
               <div className="space-y-4">
-                <div className="inline-block px-4 py-2 bg-red-50 dark:bg-red-950 text-red-600 dark:text-red-400 text-sm font-medium rounded-full">
+                <div className="font-serif inline-block px-4 py-2 bg-red-50 dark:bg-red-950 text-red-600 dark:text-red-400 text-sm font-medium rounded-full">
                   Our Services
                 </div>
                 <h3 className="text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white leading-tight">
@@ -186,7 +186,7 @@ export default function About() {
 
             <div className="order-1 lg:order-2 space-y-8">
               <div className="space-y-4">
-                <div className="inline-block px-4 py-2 bg-red-50 dark:bg-red-950 text-red-600 dark:text-red-400 text-sm font-medium rounded-full">
+                <div className="font-serif inline-block px-4 py-2 bg-red-50 dark:bg-red-950 text-red-600 dark:text-red-400 text-sm font-medium rounded-full">
                   Technology
                 </div>
                 <h3 className="text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white leading-tight">
@@ -248,7 +248,7 @@ export default function About() {
       <section className="py-20 lg:py-32 bg-white dark:bg-black">
         <div className="container mx-auto px-6 lg:px-8 max-w-7xl">
           <div className="text-center mb-16 space-y-4">
-            <div className="inline-block px-4 py-2 bg-red-50 dark:bg-red-950 text-red-600 dark:text-red-400 text-sm font-medium rounded-full">
+            <div className="font-serif inline-block px-4 py-2 bg-red-50 dark:bg-red-950 text-red-600 dark:text-red-400 text-sm font-medium rounded-full">
               Customer Success
             </div>
             <h3 className="text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white">
@@ -305,7 +305,7 @@ export default function About() {
         <div className="container mx-auto px-6 lg:px-8 max-w-4xl text-center">
           <div className="space-y-8">
             <div className="space-y-4">
-              <div className="inline-block px-4 py-2 bg-red-600/20 border border-red-600/30 text-red-400 text-sm font-medium rounded-full">
+              <div className="font-serif inline-block px-4 py-2 bg-red-600/20 border border-red-600/30 text-red-400 text-sm font-medium rounded-full">
                 Our Mission
               </div>
               <h3 className="text-4xl lg:text-5xl font-bold">

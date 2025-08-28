@@ -18,7 +18,6 @@ interface Props {
 }
 
 export default function StatusPieChart({ statusData }: Props) {
-  console.log("StatusPieChart", statusData);
   const chartConfig = statusData?.reduce((acc, item) => {
     acc[item.status] = { label: item.status, color: item.fill };
     return acc;
